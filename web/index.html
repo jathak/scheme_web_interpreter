@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0">
+  <title>Scheme Interpreter</title>
+  <script async type="application/dart" src="main.dart"></script>
+  <script async type="text/javascript" src="packages/browser/dart.js"></script>
+  <script async type="text/javascript" src="js/highlight.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/main.css"/>
+  <link rel="stylesheet" type="text/css" href="css/code.css">
+</head>
+<body>
+<div id='corner'>
+  <div id='buttons'>
+  </div>
+  <div id='overlays'>
+    <div id='diagram'>
+      <table id='table'>
+        <tr id='row'>
+          <td id='frames'></td>
+          <td id='objects'></td>
+        </tr>
+      </table>
+    </div>
+    <canvas id='turtle' width='1000px' height='1000px'></canvas>
+  </div>
+</div>
+<div id="main">
+<pre id="output"><div style='font-size:80%; line-height:1.2;'>Scheme Interpreter 2.0 Preview
+********************************************************************************
+This is a development build of the new Scheme interpreter version.
+
+<b>Major (Planned) New Features</b>
+--------------------------------------------------------------------------------
+Synchronous Core Interpreter (w/ optional futures and async/await)
+Better Modularization (easier to use only specific parts of the interpreter)
+Statically Typed (allows for better tooling, fewer bugs, Dart 2 support)
+New Frontend (cleanup old hacks; decouple from interpreter implementation)
+Can Be Easily Open Sourced (methods/functions that match pieces of the project
+    are called through an interface with an implementation we'll keep private)
+...
+
+<b>Component Versions</b>
+--------------------------------------------------------------------------------
+Frontend: Temporary hack of old frontend onto new interpreter
+Core Interpreter: <i>2.0.0-alpha001</i>
+StaffProjectImplementation: <i>2.0.0-alpha001</i>
+
+Feature Status
+--------------------------------------------------------------------------------
+<b>New Frontend</b>: Not yet started
+<b>cs61a_scheme</b>: Core library except for quasiquoting fully implemented.
+    Should otherwise properly implement the student/staff specification.
+<b>cs61a_scheme.extra</b>: Async support through AsyncExpressions (basically Futures)
+    with async/await support through define-async and lambda-async. Still needs
+    non-web-dependent diagramming and event hooks.
+<b>cs61a_scheme.web</b>: JS interop mostly complete. Still needs diagramming,
+    visualization, graphics, theming, and imports.
+<b>Library of Scheme code</b> (can't use until imports are done):
+    (demo 'autopair) requires hooks, but should otherwise be reasonable
+    (demo 'chess/'paint) require graphics, events, possibly some code changes
+    (library 'math/'strings/'timing) should all be fine (probably)
+    (library 'music) is already largely unusable on the old interpreter
+        (changes to AudioContext resulted in large performance regressions)
+        Would require substantial changes due to use of old asynchrony.
+
+<b>Help Wanted</b>
+--------------------------------------------------------------------------------
+Ping @jathak on Slack if you want to help with development.
+You'll need to learn Dart, but it's fairly easy to pick up.
+</div>
+</pre>
+<div id="prompt_container">
+  <pre id="prompt"><span class='green'>scm></span> </pre>
+  <pre id="loading"><span class='yellow'>...</span> </pre>
+  <pre id="status"></pre>
+</div>
+<pre id='input' contenteditable></pre>
+<style></style>
+</div>
+</body>
+</html>

@@ -1,0 +1,8 @@
+# Files and directories created by pub
+.packages
+.pub/
+build/
+
+# Directory created by dartdoc
+doc/api/
+
