@@ -111,7 +111,7 @@ main() async {
   //startInterpreterExtra(output, querySelector("#diagram"), querySelector("#turtle"),
   //    querySelector("#buttons"), params);
   
-  interpreter.importLibrary(new WebLibrary());
+  interpreter.importLibrary(new WebLibrary(querySelector("#diagram"), context['jsPlumb']));
   interpreter.importLibrary(new TurtleLibrary());
   interpreter.importLibrary(new ExtraLibrary());
   //if (!onEmbeddedPage()) input.focus();
@@ -293,6 +293,7 @@ updateStatus(text) {
   try {
     tokens = tokenizeLine(text);
   } catch (e) {
+    print(e);
     return;
   }
   for (var token in tokens) {

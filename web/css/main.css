@@ -167,17 +167,17 @@ pre, code {
   font-family:'Inconsolata-g', monospace;
   pointer-events: none;
 }
-#frames{
+.diagramFrames{
   vertical-align: top;
 }
-#objects{
+.diagramObjects{
   vertical-align: top;
   padding: 0.375em;
   padding-left: 3.13em;
   padding-top: 1em;
   line-height: 2.0em;
 }
-.box{
+.block{
   display: inline-block;
   padding: 0.3em;
   min-width: 1.9em;
@@ -192,15 +192,15 @@ pre, code {
   border-left: 0.0625em solid #444;
 }
 
-.pair .box {
+.block_a1 {
   background: rgba(234,154,86,0.8);
 }
 
-.vector .box {
+.block_a2 {
   background: rgba(234,154,106,0.8);
 }
 
-.promise .box {
+.block_b1 {
   background: rgba(76, 175, 80, 0.8);
   border-top-left-radius:     1.25em;
   border-bottom-left-radius:  1.25em;
@@ -208,7 +208,7 @@ pre, code {
   border-bottom-right-radius: 1.25em;
 }
 
-.pair, .vector, .promise{
+.blockGrid{
   margin: 0.5em;
   display: inline-block;
 }

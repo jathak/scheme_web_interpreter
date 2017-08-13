@@ -7,6 +7,7 @@
   <script async type="application/dart" src="main.dart"></script>
   <script async type="text/javascript" src="packages/browser/dart.js"></script>
   <script async type="text/javascript" src="js/highlight.js"></script>
+  <script async type="text/javascript" src="js/jsplumb.js"></script>
   <link rel="stylesheet" type="text/css" href="css/main.css"/>
   <link rel="stylesheet" type="text/css" href="css/code.css">
 </head>
@@ -36,6 +37,7 @@ This is a development build of the new Scheme interpreter version.
 Synchronous Core Interpreter (w/ optional futures and async/await)
 Better Modularization (easier to use only specific parts of the interpreter)
 Statically Typed (allows for better tooling, fewer bugs, Dart 2 support)
+Tail Call Optimization (with option to disable for use in visualization)
 New Frontend (cleanup old hacks; decouple from interpreter implementation)
 Can Be Easily Open Sourced (methods/functions that match pieces of the project
     are called through an interface with an implementation we'll keep private)
@@ -44,19 +46,22 @@ Can Be Easily Open Sourced (methods/functions that match pieces of the project
 <b>Component Versions</b>
 --------------------------------------------------------------------------------
 Frontend: Temporary hack of old frontend onto new interpreter
-Core Interpreter: <i>2.0.0-alpha001</i>
-StaffProjectImplementation: <i>2.0.0-alpha001</i>
+Core Interpreter: <i>2.0.0-alpha002</i>
+StaffProjectImplementation: <i>2.0.0-alpha002</i>
 
 Feature Status
 --------------------------------------------------------------------------------
 <b>New Frontend</b>: Not yet started
 <b>cs61a_scheme</b>: Core library except for quasiquoting fully implemented.
     Should otherwise properly implement the student/staff specification.
+    Additionally includes some UI and events code, but does not expose them
+    to as Scheme primitive procedures (that will be done by extra).
 <b>cs61a_scheme.extra</b>: Async support through AsyncExpressions (basically Futures)
-    with async/await support through define-async and lambda-async. Still needs
-    non-web-dependent diagramming and event hooks.
-<b>cs61a_scheme.web</b>: JS interop mostly complete. Still needs diagramming,
-    visualization, graphics, theming, and imports.
+    with async/await support through define-async and lambda-async. Supports
+    diagramming and visualization using non-web-dependent UI framework. Still
+    needs more complete event listeners (including button support in the UI)
+<b>cs61a_scheme.web</b>: JS interop mostly complete. Still needs turtle, web UI
+    for buttons, theming, and imports.
 <b>Library of Scheme code</b> (can't use until imports are done):
     (demo 'autopair) requires hooks, but should otherwise be reasonable
     (demo 'chess/'paint) require graphics, events, possibly some code changes
