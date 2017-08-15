@@ -81,6 +81,7 @@ class Repl {
     activeInput.onKeyUp.listen(keyListener);
     container.append(activeInput);
     activeInput.focus();
+    updateInputStatus();
     container.scrollTop = container.scrollHeight;
   }
   
