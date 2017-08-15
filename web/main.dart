@@ -26,8 +26,8 @@ Turtle: Not yet
 Component Versions
 --------------------------------------------------------------------------------
 Frontend: WIP, not yet versioned
-Core Interpreter: 2.0.0-alpha003
-StaffProjectImplementation: 2.0.0-alpha003
+Core Interpreter: 2.0.0-alpha004
+StaffProjectImplementation: 2.0.0-alpha004
 
 Help Wanted
 --------------------------------------------------------------------------------

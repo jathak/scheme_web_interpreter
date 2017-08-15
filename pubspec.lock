@@ -84,13 +84,13 @@ packages:
       path: "../cs61a_scheme"
       relative: true
     source: path
-    version: "2.0.0-alpha002"
+    version: "2.0.0-alpha004"
   cs61a_scheme_impl:
     description:
       path: "../cs61a_scheme_impl"
       relative: true
     source: path
-    version: "2.0.0-alpha002"
+    version: "2.0.0-alpha004"
   csslib:
     description:
       name: csslib

@@ -45,7 +45,7 @@ class Repl {
     window.onKeyDown.listen(onWindowKeyDown);
   }
   
-  bool autodraw;
+  bool autodraw = false;
   
   addPrimitives() {
     addPrimitive(interpreter.globalEnv, const SchemeSymbol('clear'), (_a, _b) {
@@ -151,7 +151,9 @@ class Repl {
   }
   
   keyListener(KeyboardEvent event) async {
-    if (event.keyCode == KeyCode.BACKSPACE) {
+    if (event.keyCode == KeyCode.BACKSPACE ||
+       (event.ctrlKey && (event.keyCode == KeyCode.V ||
+                          event.keyCode == KeyCode.X))) {
       await delay(0);
       updateInputStatus();
       highlightSaveCursor(activeInput);
@@ -159,24 +161,22 @@ class Repl {
   }
   
   onInputKeyPress(KeyboardEvent event) async {
-    await delay(0);
     Element input = activeInput;
     int missingParens = updateInputStatus();
     if ((missingParens ?? -1) > 0 && event.shiftKey && event.keyCode == KeyCode.ENTER) {
-      var code = activeInput.text;
-      code = code.substring(0, code.length - 2) + ')'*missingParens+'\n';
-      activeInput.text = code;
+      event.preventDefault();
+      activeInput.text = activeInput.text.trimRight() + ')'*missingParens+'\n';
       runActiveCode();
       await delay(100);
       input.innerHtml = highlight(input.text);
     } else if ((missingParens ?? -1) == 0 && event.keyCode == KeyCode.ENTER) {
-      var code = activeInput.text;
-      code = code.substring(0, code.length - 1);
-      activeInput.text = code;
+      event.preventDefault();
+      activeInput.text = activeInput.text.trimRight() + '\n';
       runActiveCode();
       await delay(100);
       input.innerHtml = highlight(input.text);
     } else {
+      await delay(5);
       highlightSaveCursor(input);
     }
   }
