@@ -106,7 +106,7 @@ class Repl {
           interpreter.logger(new Diagram(result), true);
         }
       } on SchemeException catch (e) {
-        logElement(new SpanElement()..text = '$e\n');
+        logElement(new SpanElement()..text = '$e\n'..classes=['error']);
       } on ExitException {
         interpreter.onExit();
         return;
