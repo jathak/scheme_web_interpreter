@@ -103,29 +103,34 @@ class Repl {
     addToHistory(code);
     buildNewInput();
     var tokens = tokenizeLines(code.split("\n")).toList();
+    var loggingArea = activeLoggingArea;
     while (tokens.isNotEmpty) {
       try {
         Expression expr = schemeRead(tokens, interpreter.implementation);
         Expression result = schemeEval(expr, interpreter.globalEnv);
         if (result is AsyncExpression) {
-          var box = new SpanElement()..text='...\n'..classes=['repl-async'];
-          activeLoggingArea.append(box);
-          result = await (result as AsyncExpression).future;
+          var box = new SpanElement()..text='$result\n'..classes=['repl-async'];
+          loggingArea.append(box);
+          await result.future;
           box.classes=['repl-log'];
           logInto(box, result);
         } else if (!identical(result, undefined)) {
-          interpreter.logger(result, true);
+          var box = new SpanElement();
+          loggingArea.append(box);
+          logInto(box, result, true);
         }
         if (autodraw && result is Pair) {
-          interpreter.logger(new Diagram(result), true);
+          var box = new SpanElement();
+          loggingArea.append(box);
+          logInto(box, new Diagram(result), true);
         }
       } on SchemeException catch (e) {
-        logElement(new SpanElement()..text = '$e\n'..classes=['error']);
+        loggingArea.append(new SpanElement()..text = '$e\n'..classes=['error']);
       } on ExitException {
         interpreter.onExit();
         return;
       } catch (e) {
-        logElement(new SpanElement()..text = '$e\n'..classes=['error']);
+        loggingArea.append(new SpanElement()..text = '$e\n'..classes=['error']);
         if (e is Error) {
           print('Stack Trace: ${e.stackTrace}');
         }
