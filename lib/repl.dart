@@ -27,7 +27,20 @@ class Repl {
     }
     addPrimitives();
     container = new PreElement()..classes = ['repl'];
-    container.onClick.listen((e) => activeInput.focus());
+    container.onClick.listen((e) async {
+      await delay(0);
+      var selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        var range = window.getSelection().getRangeAt(0);
+        if (range.startOffset != range.endOffset) return;
+      }
+      activeInput.focus();
+      var range = new Range();
+      range.selectNodeContents(activeInput);
+      range.collapse(false);
+      selection.removeAllRanges();
+      selection.addRange(range);
+    });
     parent.append(container);
     status = new SpanElement()..classes = ['repl-status'];
     container.append(status);
@@ -111,6 +124,11 @@ class Repl {
       } on ExitException {
         interpreter.onExit();
         return;
+      } catch (e) {
+        logElement(new SpanElement()..text = '$e\n'..classes=['error']);
+        if (e is Error) {
+          print('Stack Trace: ${e.stackTrace}');
+        }
       }
     }
     container.scrollTop = container.scrollHeight;
