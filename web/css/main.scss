@@ -1,49 +1,12 @@
-@import 'diagram';
+@import 'variables';
+@import 'render';
 @import 'fonts';
-@import 'hljs';
+@import 'syntax';
 @import 'repl';
 
 body {
   margin: 0;
   padding: 0;
-}
-
-#input {
-  border-radius:0;
-  overflow:hidden;
-  -webkit-appearance: none;
-  position:absolute;
-  background:#181818;
-  border-width:0;
-  color:#fff;
-  font-family:'Inconsolata-g', monospace;
-  bottom: 0.5em;
-  right: 1.5em;
-  left: 4.5em;
-  height: 1.09em;
-  text-align: bottom;
-  font-size: 0.92em;
-  width:calc(100% - 6.3125em);
-  resize: none;
-}
-
-#input:focus {
-  outline: none;
-}
-
-#loading {
-  position: absolute;
-  left: 1.5em;
-  bottom: 0.38em;
-  background: #181818;
-  z-index: 20;
-  opacity: 0;
-}
-
-#prompt{
-  position:absolute;
-  left: 1.5em;
-  bottom: 0.38em;
 }
 
 #corner {
@@ -54,32 +17,17 @@ body {
   z-index: 250;
 }
 
-#buttons {
-  z-index: 250;
-  text-align: right;
-}
-
-.button {
+#diagram{
+  float: right;
+  height:100%;
+  position:absolute;
+  top:0;
+  right: 0.75em;
+  z-index:200;
   font-size: 0.92em;
-  background: rgba(85, 119, 255, 0.8);
-  color: #fff;
-  padding: 0.25em 0.375em;
-  border-radius: 0.1875em;
-  margin: 0.5em 0.5em 0.5em 0;
-  display: inline-block;
-  z-index: 250;
-  font-family:'Inconsolata-g', monospace;
-  cursor: pointer;
-  user-select: none;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-}
-
-.button:hover {
-  background: rgba(85, 119, 255, 0.7);
-  color: #fff;
+  font-family:$font-stack;
+  pointer-events: none;
+  @include text;
 }
 
 #overlays {
@@ -96,14 +44,6 @@ body {
   z-index:100;
   background:#fff;
   display:none;
-}
-
-pre a{
-  text-decoration:none;
-  color:#33b5e5;
-}
-pre a:hover{
-  color:#99cc00;
 }
 
 @media all and (max-width: 768px) {

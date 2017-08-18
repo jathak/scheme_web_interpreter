@@ -36,12 +36,15 @@ You'll need to learn Dart, but it's fairly easy to pick up.
 
 """;
 
-main() {
+main() async {
   var interpreter = new Interpreter(new StaffProjectImplementation());
   interpreter.importLibrary(new ExtraLibrary());
   interpreter.importLibrary(new TurtleLibrary());
   var diagramBox = querySelector('#diagram');
-  interpreter.importLibrary(new WebLibrary(diagramBox, context['jsPlumb']));
+  String css = await HttpRequest.getString('css/main.css');
+  var style = querySelector('style');
+  var web = new WebLibrary(diagramBox, context['jsPlumb'], css, style);
+  interpreter.importLibrary(web);
   var repl = new Repl(interpreter, document.body);
   repl.logText(motd);
 }
