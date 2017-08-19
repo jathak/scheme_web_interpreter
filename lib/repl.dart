@@ -111,10 +111,10 @@ class Repl {
         if (result is AsyncExpression) {
           var box = new SpanElement()..text='$result\n'..classes=['repl-async'];
           loggingArea.append(box);
-          await result.future;
+          var awaited = await result.future;
           box.classes=['repl-log'];
-          logInto(box, result);
-        } else if (!identical(result, undefined)) {
+          logInto(box, awaited is Undefined ? null : result);
+        } else if (result is! Undefined) {
           var box = new SpanElement();
           loggingArea.append(box);
           logInto(box, result, true);
@@ -246,10 +246,23 @@ class Repl {
   }
   
   logInto(Element element, Expression logging, [bool newline=true]) {
-    if (logging is UIElement) {
+    if (logging == null) {
+      element.text = '';
+    } else if (logging is UIElement) {
       element.classes.add('render');
       var renderer = new HtmlRenderer(element, context['jsPlumb']);
       renderer.render(logging);
+      logging.onUpdate.listen(([_]) async {
+        await delay(0);
+        if (logging is Visualization && 
+            element.offsetHeight > window.innerHeight) {
+          container.scrollTop = container.scrollHeight;
+          element.querySelector('.current-frame')
+                 .scrollIntoView(ScrollAlignment.CENTER);
+        } else {
+          container.scrollTop = container.scrollHeight;
+        }
+      });
     } else {
       element.text = logging.toString() + (newline ? '\n' : '');
     }

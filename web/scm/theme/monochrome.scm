@@ -6,7 +6,7 @@
   (theme-set-css! t 'error "font-weight: bold;")
   (theme-set-color! t 'link foreground)
   (theme-set-color! t 'link-hover foreground)
-  (theme-set-css! t 'error "text-decoration: underline;")
+  (theme-set-css! t 'link-hover "text-decoration: underline;")
   (theme-set-color! t 'status foreground)
   (theme-set-color! t 'spec-keyword foreground)
   (theme-set-css! t 'spec-keyword "font-weight: bold;")
@@ -46,7 +46,7 @@
   (theme-set-css! t 'async-block (string-append "border: 0.125em solid " (color->css foreground) ";"))
   
   (theme-set-css! t 'button (string-append "border: 0.125em solid " (color->css foreground) ";"))
-  (theme-set-css! t 'button=hover (string-append "border: 0.125em solid " (color->css foreground) ";"))
+  (theme-set-css! t 'button-hover (string-append "border: 0.125em solid " (color->css foreground) ";"))
   t)
 
 (define imported-theme (make-monochrome-theme (hex "#fff") (hex "#000")))

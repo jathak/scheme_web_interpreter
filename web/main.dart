@@ -12,22 +12,23 @@ This is a development build of the new Scheme interpreter version.
 
 Feature Status
 --------------------------------------------------------------------------------
-Frontend: WIP
+Frontend: Most things except for the editor are done
 Core library: Everything but quasiquoting
 Async/await: Supported through AsyncExpressions and auto-awaiting frontend
-Event listeners: Core support, needs buttons on frontend
-Diagramming: Working, needs some CSS tweaks
-Visualization: Working, needs UI controls
-.scm Libraries: None yet, needs imports and some rewrites
-JS interop: Mostly done
-Theming: Not yet
+Event listeners: Core support, primitives in extra, buttons available.
+Diagramming: Done
+Visualization: Done
+.scm Libraries: Themes only at this point, though imports are ready.
+JS interop: Done
+Theming: Done (with default, solarized, monochrome, monochrome-dark, and
+  go-bears)
 Turtle: Not yet
 
 Component Versions
 --------------------------------------------------------------------------------
 Frontend: WIP, not yet versioned
-Core Interpreter: 2.0.0-alpha004
-StaffProjectImplementation: 2.0.0-alpha004
+Core Interpreter: 2.0.0-alpha006
+StaffProjectImplementation: 2.0.0-alpha006
 
 Help Wanted
 --------------------------------------------------------------------------------
@@ -45,6 +46,16 @@ main() async {
   var style = querySelector('style');
   var web = new WebLibrary(diagramBox, context['jsPlumb'], css, style);
   interpreter.importLibrary(web);
+  if (window.localStorage.containsKey('#scheme-theme')) {
+    var d = new Deserializer(window.localStorage['#scheme-theme']);
+    Expression expr = d.expression;
+    if (expr is Theme) {
+      applyTheme(expr, css, style, false);
+    }
+  }
+  onThemeChange.listen((Theme theme) {
+    window.localStorage['#scheme-theme'] = new Serializer(theme).toJSON();
+  });
   var repl = new Repl(interpreter, document.body);
   repl.logText(motd);
 }

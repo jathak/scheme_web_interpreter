@@ -39,6 +39,26 @@
     }
   }
   
+  svg path, svg circle {
+    @include arrow;
+  }
+  
+  svg *[fill="transparent"] {
+    fill: transparent;
+  }
+  
+  svg *[stroke="transparent"] {
+    stroke: transparent;
+  }
+  
+  svg *[fill="none"] {
+    fill: none;
+  }
+  
+  svg *[stroke="none"] {
+    stroke: none;
+  }
+  
   .pair {
     @include pair;
   }
@@ -85,6 +105,7 @@
           border-bottom: 0.125em solid #fff;
           border-left: 0.125em solid #fff;
           padding-left: 0.125em;
+          @include binding-box;
         }
         
         .parent{

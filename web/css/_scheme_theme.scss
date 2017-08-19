@@ -128,6 +128,13 @@
   }
 }
 
+@mixin binding-box {
+  /*!COLOR|border-color|render*/ border-color: #fff; /*!END*/
+  &:hover {
+    /*!COLOR|border-color|render-hover*/ /*!END*/
+  }
+}
+
 @mixin return-value {
   /*!COLOR|color|return-value*/ color: #ff8; /*!END*/
   /*!CSS|return-value*/
@@ -141,10 +148,12 @@
 }
 
 @mixin arrow {
-  /*!COLOR|color|arrow*/ color: #fff; /*!END*/
+  /*!COLOR|fill|arrow*/ color: #fff; /*!END*/
+  /*!COLOR|stroke|arrow*/ color: #fff; /*!END*/
   /*!CSS|arrow*/ /*!END*/
   &:hover {
-    /*!COLOR|color|arrow-hover*/ /*!END*/
+    /*!COLOR|fill|arrow-hover*/ /*!END*/
+    /*!COLOR|fill|arrow-hover*/ /*!END*/
     /*!CSS|arrow-hover*/ /*!END*/
   }
 }
