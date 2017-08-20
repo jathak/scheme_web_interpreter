@@ -15,19 +15,17 @@ Feature Status
 Frontend: Most things except for the editor are done
 Core library: Everything but quasiquoting
 Async/await: Supported through AsyncExpressions and auto-awaiting frontend
-Event listeners: Core support, primitives in extra, buttons available.
+Event listeners: Done (and now actually working)
 Diagramming: Done
 Visualization: Done
-.scm Libraries: Themes only at this point, though imports are ready.
+.scm Libraries: (import 'scm/apps/chess) (should be same as old chess)
 JS interop: Done
-Theming: Done (with default, solarized, monochrome, monochrome-dark, and
-  go-bears)
+Theming: Done (default, solarized, monochrome, monochrome-dark, go-bears)
 Turtle: Not yet
 
 Component Versions
 --------------------------------------------------------------------------------
-Frontend: WIP, not yet versioned
-Core Interpreter: 2.0.0-alpha006
+Core Interpreter: 2.0.0-alpha007
 StaffProjectImplementation: 2.0.0-alpha006
 
 Help Wanted
@@ -38,14 +36,14 @@ You'll need to learn Dart, but it's fairly easy to pick up.
 """;
 
 main() async {
-  var interpreter = new Interpreter(new StaffProjectImplementation());
-  interpreter.importLibrary(new ExtraLibrary());
-  interpreter.importLibrary(new TurtleLibrary());
+  var inter = new Interpreter(new StaffProjectImplementation());
+  inter.importLibrary(new ExtraLibrary());
+  inter.importLibrary(new TurtleLibrary(querySelector('canvas'), inter));
   var diagramBox = querySelector('#diagram');
   String css = await HttpRequest.getString('css/main.css');
   var style = querySelector('style');
   var web = new WebLibrary(diagramBox, context['jsPlumb'], css, style);
-  interpreter.importLibrary(web);
+  inter.importLibrary(web);
   if (window.localStorage.containsKey('#scheme-theme')) {
     var d = new Deserializer(window.localStorage['#scheme-theme']);
     Expression expr = d.expression;
@@ -56,6 +54,6 @@ main() async {
   onThemeChange.listen((Theme theme) {
     window.localStorage['#scheme-theme'] = new Serializer(theme).toJSON();
   });
-  var repl = new Repl(interpreter, document.body);
+  var repl = new Repl(inter, document.body);
   repl.logText(motd);
 }

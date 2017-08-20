@@ -55,6 +55,13 @@ class Repl {
         logText(logging.toString() + (newline ? '\n' : ''));
       }
     };
+    interpreter.logError = (e) {
+      var errorElement = new SpanElement()..text = '$e\n'..classes=['error'];
+      activeLoggingArea.append(errorElement);
+      if (e is Error) {
+        print('Stack Trace: ${e.stackTrace}');
+      }
+    };
     window.onKeyDown.listen(onWindowKeyDown);
   }
   
