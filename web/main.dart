@@ -21,7 +21,7 @@ Visualization: Done
 .scm Libraries: (import 'scm/apps/chess) (should be same as old chess)
 JS interop: Done
 Theming: Done (default, solarized, monochrome, monochrome-dark, go-bears)
-Turtle: Not yet
+Turtle: Mostly done (missing pixel)
 
 Component Versions
 --------------------------------------------------------------------------------
