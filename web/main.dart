@@ -13,7 +13,7 @@ This is a development build of the new Scheme interpreter version.
 Feature Status
 --------------------------------------------------------------------------------
 Frontend: Most things except for the editor are done
-Core library: Everything but quasiquoting
+Core library: Done
 Async/await: Supported through AsyncExpressions and auto-awaiting frontend
 Event listeners: Done (and now actually working)
 Diagramming: Done
@@ -25,8 +25,8 @@ Turtle: Mostly done (missing pixel)
 
 Component Versions
 --------------------------------------------------------------------------------
-Core Interpreter: 2.0.0-alpha007
-StaffProjectImplementation: 2.0.0-alpha006
+Core Interpreter: 2.0.0-alpha008
+StaffProjectImplementation: 2.0.0-alpha008
 
 Help Wanted
 --------------------------------------------------------------------------------

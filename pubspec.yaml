@@ -27,5 +27,5 @@ transformers:
   - dart_sass_transformer:
       executable: sass
       style: compact
-      copy-sources: true
+      copy-sources: false
   - dart_to_js_script_rewriter
