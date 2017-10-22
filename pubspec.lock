@@ -13,6 +13,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.0.9"
+  appcache:
+    description:
+      ref: HEAD
+      resolved-ref: "8d9cc4e6b248efd955a1dd19b145f32fdaa030eb"
+      url: "https://github.com/jathak/dart-appcache.git"
+    source: git
+    version: "0.1.2"
   args:
     description:
       name: args
@@ -61,6 +68,12 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.4"
+  code_transformers:
+    description:
+      name: code_transformers
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.1+3"
   collection:
     description:
       name: collection
@@ -84,7 +97,7 @@ packages:
       path: "../cs61a_scheme"
       relative: true
     source: path
-    version: "2.0.0-alpha008"
+    version: "2.0.0-beta"
   cs61a_scheme_impl:
     description:
       path: "../cs61a_scheme_impl"
