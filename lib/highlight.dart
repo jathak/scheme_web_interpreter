@@ -6,7 +6,6 @@ import 'dart:js';
 
 JsObject hljs = context['hljs'];
 
-
 String highlight(String code) {
   return hljs.callMethod('highlight', ['scheme', code, true])['value'];
 }
@@ -53,6 +52,7 @@ int _findPosition(Element input, Range range) {
       return total;
     }
   }
+
   return countUntil(input) + offset;
 }
 
@@ -72,6 +72,7 @@ Range _makeRange(Element input, int remaining) {
     }
     return null;
   }
+
   Node node = findNode(input);
   Range range = new Range();
   if (node == null) {

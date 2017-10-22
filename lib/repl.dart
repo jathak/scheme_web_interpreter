@@ -15,12 +15,12 @@ class Repl {
   Element activePrompt;
   Element activeInput;
   Element status;
-  
+
   Interpreter interpreter;
-  
+
   List<String> history = [];
   int historyIndex = -1;
-  
+
   Repl(this.interpreter, Element parent) {
     if (window.localStorage.containsKey('#repl-history')) {
       history = JSON.decode(window.localStorage['#repl-history']);
@@ -28,6 +28,7 @@ class Repl {
     addPrimitives();
     container = new PreElement()..classes = ['repl'];
     container.onClick.listen((e) async {
+      if (activeInput.contains(e.target)) return;
       await delay(0);
       var selection = window.getSelection();
       if (selection.rangeCount > 0) {
@@ -45,7 +46,7 @@ class Repl {
     status = new SpanElement()..classes = ['repl-status'];
     container.append(status);
     buildNewInput();
-    interpreter.logger = (Expression logging, [bool newline=true]) {
+    interpreter.logger = (Expression logging, [bool newline = true]) {
       if (logging is UIElement) {
         var renderBox = new DivElement()..classes = ['render'];
         activeLoggingArea.append(renderBox);
@@ -56,7 +57,9 @@ class Repl {
       }
     };
     interpreter.logError = (e) {
-      var errorElement = new SpanElement()..text = '$e\n'..classes=['error'];
+      var errorElement = new SpanElement()
+        ..text = '$e\n'
+        ..classes = ['error'];
       activeLoggingArea.append(errorElement);
       if (e is Error) {
         print('Stack Trace: ${e.stackTrace}');
@@ -64,9 +67,9 @@ class Repl {
     };
     window.onKeyDown.listen(onWindowKeyDown);
   }
-  
+
   bool autodraw = false;
-  
+
   addPrimitives() {
     addPrimitive(interpreter.globalEnv, const SchemeSymbol('clear'), (_a, _b) {
       for (Element child in container.children.toList()) {
@@ -87,15 +90,17 @@ class Repl {
       return undefined;
     }, 0);
   }
-  
+
   buildNewInput() {
     activeLoggingArea = new SpanElement();
     container.append(activeLoggingArea);
-    activePrompt = new SpanElement()..text = 'scm> '..classes = ['repl-prompt'];
+    activePrompt = new SpanElement()
+      ..text = 'scm> '
+      ..classes = ['repl-prompt'];
     container.append(activePrompt);
     activeInput = new SpanElement()
       ..classes = ['repl-input']
-      ..contentEditable='true';
+      ..contentEditable = 'true';
     activeInput.onKeyPress.listen(onInputKeyPress);
     activeInput.onKeyDown.listen(keyListener);
     activeInput.onKeyUp.listen(keyListener);
@@ -104,7 +109,7 @@ class Repl {
     updateInputStatus();
     container.scrollTop = container.scrollHeight;
   }
-  
+
   runActiveCode() async {
     var code = activeInput.text;
     addToHistory(code);
@@ -116,10 +121,12 @@ class Repl {
         Expression expr = schemeRead(tokens, interpreter.implementation);
         Expression result = schemeEval(expr, interpreter.globalEnv);
         if (result is AsyncExpression) {
-          var box = new SpanElement()..text='$result\n'..classes=['repl-async'];
+          var box = new SpanElement()
+            ..text = '$result\n'
+            ..classes = ['repl-async'];
           loggingArea.append(box);
           var awaited = await result.future;
-          box.classes=['repl-log'];
+          box.classes = ['repl-log'];
           logInto(box, awaited is Undefined ? null : result);
         } else if (result is! Undefined) {
           var box = new SpanElement();
@@ -132,12 +139,16 @@ class Repl {
           logInto(box, new Diagram(result), true);
         }
       } on SchemeException catch (e) {
-        loggingArea.append(new SpanElement()..text = '$e\n'..classes=['error']);
+        loggingArea.append(new SpanElement()
+          ..text = '$e\n'
+          ..classes = ['error']);
       } on ExitException {
         interpreter.onExit();
         return;
       } catch (e) {
-        loggingArea.append(new SpanElement()..text = '$e\n'..classes=['error']);
+        loggingArea.append(new SpanElement()
+          ..text = '$e\n'
+          ..classes = ['error']);
         if (e is Error) {
           print('Stack Trace: ${e.stackTrace}');
         }
@@ -145,7 +156,7 @@ class Repl {
     }
     container.scrollTop = container.scrollHeight;
   }
-  
+
   addToHistory(String code) {
     historyIndex = -1;
     if (history.isNotEmpty && code == history[0]) return;
@@ -153,13 +164,13 @@ class Repl {
     var subset = history.take(100).toList();
     window.localStorage['#repl-history'] = JSON.encode(subset);
   }
-  
+
   historyUp() {
     if (historyIndex < history.length - 1) {
       replaceInput(history[++historyIndex]);
     }
   }
-  
+
   historyDown() {
     if (historyIndex > 0) {
       replaceInput(history[--historyIndex]);
@@ -168,7 +179,7 @@ class Repl {
       replaceInput("");
     }
   }
-  
+
   onWindowKeyDown(KeyboardEvent event) {
     if (activeInput.text.trim().contains('\n') && !event.ctrlKey) return;
     if (event.keyCode == KeyCode.UP) {
@@ -180,23 +191,22 @@ class Repl {
       return;
     }
   }
-  
+
   keyListener(KeyboardEvent event) async {
     if (event.keyCode == KeyCode.BACKSPACE ||
-       (event.ctrlKey && (event.keyCode == KeyCode.V ||
-                          event.keyCode == KeyCode.X))) {
+        (event.ctrlKey && (event.keyCode == KeyCode.V || event.keyCode == KeyCode.X))) {
       await delay(0);
       updateInputStatus();
       highlightSaveCursor(activeInput);
     }
   }
-  
+
   onInputKeyPress(KeyboardEvent event) async {
     Element input = activeInput;
     int missingParens = updateInputStatus();
     if ((missingParens ?? -1) > 0 && event.shiftKey && event.keyCode == KeyCode.ENTER) {
       event.preventDefault();
-      activeInput.text = activeInput.text.trimRight() + ')'*missingParens+'\n';
+      activeInput.text = activeInput.text.trimRight() + ')' * missingParens + '\n';
       runActiveCode();
       await delay(100);
       input.innerHtml = highlight(input.text);
@@ -211,7 +221,7 @@ class Repl {
       highlightSaveCursor(input);
     }
   }
-  
+
   int updateInputStatus() {
     int missingParens = countParens(activeInput.text);
     if (missingParens == null) {
@@ -230,12 +240,12 @@ class Repl {
     }
     return missingParens;
   }
-  
+
   replaceInput(String text) async {
     await highlightAtEnd(activeInput, text);
     updateInputStatus();
   }
-  
+
   countParens(String text) {
     var tokens;
     try {
@@ -251,8 +261,8 @@ class Repl {
     });
     return left - right;
   }
-  
-  logInto(Element element, Expression logging, [bool newline=true]) {
+
+  logInto(Element element, Expression logging, [bool newline = true]) {
     if (logging == null) {
       element.text = '';
     } else if (logging is UIElement) {
@@ -261,11 +271,9 @@ class Repl {
       renderer.render(logging);
       logging.onUpdate.listen(([_]) async {
         await delay(0);
-        if (logging is Visualization && 
-            element.offsetHeight > window.innerHeight) {
+        if (logging is Visualization && element.offsetHeight > window.innerHeight) {
           container.scrollTop = container.scrollHeight;
-          element.querySelector('.current-frame')
-                 .scrollIntoView(ScrollAlignment.CENTER);
+          element.querySelector('.current-frame').scrollIntoView(ScrollAlignment.CENTER);
         } else {
           container.scrollTop = container.scrollHeight;
         }
@@ -275,19 +283,18 @@ class Repl {
     }
     container.scrollTop = container.scrollHeight;
   }
-  
+
   logElement(Element element) {
     activeLoggingArea.append(element);
     container.scrollTop = container.scrollHeight;
   }
-  
+
   logText(String text) {
     activeLoggingArea.appendText(text);
     container.scrollTop = container.scrollHeight;
   }
-  
+
   Future delay(int milliseconds) {
-    return new Future.delayed(new Duration(milliseconds:milliseconds));
+    return new Future.delayed(new Duration(milliseconds: milliseconds));
   }
-  
 }

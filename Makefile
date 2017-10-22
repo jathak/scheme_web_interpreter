@@ -7,6 +7,9 @@ deploy:
 	rm -r build/web/packages
 	bash deploy.sh
 
+test:
+	dart test/scm.dart
+
 format:
 	dartfmt -w -l 100 .
 

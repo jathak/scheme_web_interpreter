@@ -14,6 +14,10 @@ It depends on the [Dart implementation][] of [61A Scheme][] and a
 by the time you read this, stick with the latest 1.x version for now. Make sure
 that both `dart` and `pub` are on your path.
 
+1b. (Temporary) At the moment, this project uses the Ruby version of Sass and
+requires you to install it separately on your path in order to build the CSS.
+I plan to switch this over to the Dart version of Sass soon.
+
 2. While this package will eventually depend on the main implementation through
 Pub and the private implementation through Git, for right now, make a directory
 and clone all three repos into it as follows:

@@ -6,44 +6,44 @@ import 'package:cs61a_scheme_impl/impl.dart' show StaffProjectImplementation;
 
 import 'package:scheme_web_interpreter/repl.dart';
 
-const String motd = """Scheme Interpreter 2.0 Preview
+const String motd = """<strong>61A Scheme Web Interpreter 2.0.0-beta</strong>
 ********************************************************************************
-This is a development build of the new Scheme interpreter version.
+<strong>Diagramming</strong>
+(draw &lt;any list>) to create a box-and-pointer diagram
+(autodraw) to start drawing diagrams for any returned list
+(visualize &lt;some code>) to create an environment diagram
 
-Feature Status
---------------------------------------------------------------------------------
-Frontend: Most things except for the editor are done
-Core library: Done
-Async/await: Supported through AsyncExpressions and auto-awaiting frontend
-Event listeners: Done (and now actually working)
-Diagramming: Done
-Visualization: Done
-.scm Libraries: (import 'scm/apps/chess) (should be same as old chess)
-JS interop: Done
-Theming: Done (default, solarized, monochrome, monochrome-dark, go-bears)
-Turtle: Mostly done (missing pixel)
+<strong>Themes</strong>
+(theme 'default) (theme 'solarized) (theme 'monochrome) (theme 'monochrome-dark)
 
-Component Versions
---------------------------------------------------------------------------------
-Core Interpreter: 2.0.0-alpha008
-StaffProjectImplementation: 2.0.0-alpha008
+<strong>Fun Stuff</strong>
+(import 'scm/apps/chess) to play a game of chess (missing some features)
 
-Help Wanted
---------------------------------------------------------------------------------
-Ping @jathak on Slack if you want to help with development.
-You'll need to learn Dart, but it's fairly easy to pick up.
+<strong>Keyboard Shortcuts</strong>
+Up/Down to scroll through history (Hold Ctrl to scroll past multiline entry)
+Shift+Enter to add missing parens and run the current input
+
+<i>Looking for the <a target="_blank">old version</a>?</i>
 
 """;
 
 main() async {
   var inter = new Interpreter(new StaffProjectImplementation());
+  var normals = inter.globalEnv.bindings.keys.toSet();
   inter.importLibrary(new ExtraLibrary());
-  inter.importLibrary(new TurtleLibrary(querySelector('canvas'), inter));
   var diagramBox = querySelector('#diagram');
   String css = await HttpRequest.getString('css/main.css');
   var style = querySelector('style');
   var web = new WebLibrary(diagramBox, context['jsPlumb'], css, style);
   inter.importLibrary(web);
+  var specials = inter.globalEnv.bindings.keys.toSet().difference(normals);
+  inter.importLibrary(new TurtleLibrary(querySelector('canvas'), inter));
+  var turtles = inter.globalEnv.bindings.keys.toSet().difference(specials).difference(normals);
+  context.callMethod('hljsRegister', [new JsObject.jsify({
+    'builtin-normal': normals.union(inter.specialForms.keys.toSet()).join(' '),
+    'builtin-special': specials.join(' '),
+    'builtin-turtle': turtles.join(' ')
+  })]);
   if (window.localStorage.containsKey('#scheme-theme')) {
     var d = new Deserializer(window.localStorage['#scheme-theme']);
     Expression expr = d.expression;
@@ -55,5 +55,7 @@ main() async {
     window.localStorage['#scheme-theme'] = new Serializer(theme).toJSON();
   });
   var repl = new Repl(inter, document.body);
-  repl.logText(motd);
+  var motdElement = new SpanElement()..innerHtml = motd;
+  motdElement.querySelector('a').attributes['href'] = "https://scheme-legacy.apps.cs61a.org";
+  repl.logElement(motdElement);
 }
