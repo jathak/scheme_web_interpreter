@@ -13,17 +13,20 @@ const String motd = """<strong>61A Scheme Web Interpreter 2.0.0-beta</strong>
 (autodraw) to start drawing diagrams for any returned list
 (visualize &lt;some code>) to create an environment diagram
 
-<strong>Themes</strong>
-(theme 'default) (theme 'solarized) (theme 'monochrome) (theme 'monochrome-dark)
-
-<strong>Fun Stuff</strong>
+<strong>Other Useful Commands</strong>
+(clear) to clear all output on the screen
+(theme 'id) to change the interpreter's theme
+    default, solarized, monochrome, monochrome-dark, and go-bears available
+(bindings) returns a list of all names bound in the current environment
 (import 'scm/apps/chess) to play a game of chess (missing some features)
 
 <strong>Keyboard Shortcuts</strong>
 Up/Down to scroll through history (Hold Ctrl to scroll past multiline entry)
 Shift+Enter to add missing parens and run the current input
 
-<i>Looking for the <a target="_blank">old version</a>?</i>
+<i>Looking for the old version? """
+    """<a id='legacy-interpreter' target="_blank">Interpreter</a> &mdash; """
+    """<a id='legacy-editor' target="_blank">Editor</a></i>
 
 """;
 
@@ -39,11 +42,13 @@ main() async {
   var specials = inter.globalEnv.bindings.keys.toSet().difference(normals);
   inter.importLibrary(new TurtleLibrary(querySelector('canvas'), inter));
   var turtles = inter.globalEnv.bindings.keys.toSet().difference(specials).difference(normals);
-  context.callMethod('hljsRegister', [new JsObject.jsify({
-    'builtin-normal': normals.union(inter.specialForms.keys.toSet()).join(' '),
-    'builtin-special': specials.join(' '),
-    'builtin-turtle': turtles.join(' ')
-  })]);
+  context.callMethod('hljsRegister', [
+    new JsObject.jsify({
+      'builtin-normal': normals.union(inter.specialForms.keys.toSet()).join(' '),
+      'builtin-special': specials.join(' '),
+      'builtin-turtle': turtles.join(' ')
+    })
+  ]);
   if (window.localStorage.containsKey('#scheme-theme')) {
     var d = new Deserializer(window.localStorage['#scheme-theme']);
     Expression expr = d.expression;
@@ -56,6 +61,9 @@ main() async {
   });
   var repl = new Repl(inter, document.body);
   var motdElement = new SpanElement()..innerHtml = motd;
-  motdElement.querySelector('a').attributes['href'] = "https://scheme-legacy.apps.cs61a.org";
+  motdElement.querySelector('#legacy-interpreter').attributes['href'] =
+      "https://scheme-legacy.apps.cs61a.org";
+  motdElement.querySelector('#legacy-editor').attributes['href'] =
+      "https://scheme-legacy.apps.cs61a.org/editor.html";
   repl.logElement(motdElement);
 }
