@@ -202,7 +202,6 @@ class Repl {
   }
 
   onInputKeyPress(KeyboardEvent event) async {
-    await delay(5);
     Element input = activeInput;
     int missingParens = updateInputStatus();
     if ((missingParens ?? -1) > 0 && event.shiftKey && event.keyCode == KeyCode.ENTER) {
@@ -221,6 +220,7 @@ class Repl {
       await delay(5);
       highlightSaveCursor(input);
     }
+    updateInputStatus();
   }
 
   int updateInputStatus() {
