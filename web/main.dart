@@ -6,7 +6,7 @@ import 'package:cs61a_scheme_impl/impl.dart' show StaffProjectImplementation;
 
 import 'package:scheme_web_interpreter/repl.dart';
 
-const String motd = """<strong>61A Scheme Web Interpreter 2.0.0-beta</strong>
+const String motd = """<strong>61A Scheme Web Interpreter 2.0.0-beta2</strong>
 ********************************************************************************
 <strong>Diagramming</strong>
 (draw &lt;any list>) to create a box-and-pointer diagram
@@ -50,7 +50,7 @@ main() async {
     })
   ]);
   if (window.localStorage.containsKey('#scheme-theme')) {
-    var d = new Deserializer(window.localStorage['#scheme-theme']);
+    var d = new Deserializer(window.localStorage['#scheme-theme'], inter);
     Expression expr = d.expression;
     if (expr is Theme) {
       applyTheme(expr, css, style, false);

@@ -30,9 +30,3 @@ transformers:
       style: compact
       copy-sources: false
   - dart_to_js_script_rewriter
-  - appcache:
-      $exclude: ["**.dart", "**.yaml", "**.md"]
-      entry_points:
-        - web/index.html
-      cache:
-        - web/index.html
