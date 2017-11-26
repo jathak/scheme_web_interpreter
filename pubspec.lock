@@ -97,7 +97,7 @@ packages:
       path: "../cs61a_scheme"
       relative: true
     source: path
-    version: "2.0.0-beta"
+    version: "2.0.0-beta2"
   cs61a_scheme_impl:
     description:
       path: "../cs61a_scheme_impl"

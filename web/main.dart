@@ -6,7 +6,7 @@ import 'package:cs61a_scheme_impl/impl.dart' show StaffProjectImplementation;
 
 import 'package:scheme_web_interpreter/repl.dart';
 
-const String motd = """<strong>61A Scheme Web Interpreter 2.0.0-beta2</strong>
+const String motd = """<strong>61A Scheme Web Interpreter 2.0.0-beta</strong>
 ********************************************************************************
 <strong>Diagramming</strong>
 (draw &lt;any list>) to create a box-and-pointer diagram
@@ -50,14 +50,17 @@ main() async {
     })
   ]);
   if (window.localStorage.containsKey('#scheme-theme')) {
-    var d = new Deserializer(window.localStorage['#scheme-theme'], inter);
-    Expression expr = d.expression;
-    if (expr is Theme) {
-      applyTheme(expr, css, style, false);
+    try {
+      Expression expr = Serialization.deserializeFromJson(window.localStorage['#scheme-theme']);
+      if (expr is Theme) {
+        applyTheme(expr, css, style, false);
+      }
+    } catch (e) {
+      window.localStorage.remove('#scheme-theme');
     }
   }
   onThemeChange.listen((Theme theme) {
-    window.localStorage['#scheme-theme'] = new Serializer(theme).toJSON();
+    window.localStorage['#scheme-theme'] = Serialization.serializeToJson(theme);
   });
   var repl = new Repl(inter, document.body);
   var motdElement = new SpanElement()..innerHtml = motd;
