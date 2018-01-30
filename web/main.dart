@@ -51,12 +51,13 @@ main() async {
   ]);
   if (window.localStorage.containsKey('#scheme-theme')) {
     try {
-      Expression expr = Serialization.deserializeFromJson(window.localStorage['#scheme-theme']);
+      var expr = Serialization.deserializeFromJson(window.localStorage['#scheme-theme']);
       if (expr is Theme) {
         applyTheme(expr, css, style, false);
       }
     } catch (e) {
-      window.localStorage.remove('#scheme-theme');
+      print("Saved theme invalid. Removing...");
+      window.localStorage.remove("#scheme-theme");
     }
   }
   onThemeChange.listen((Theme theme) {

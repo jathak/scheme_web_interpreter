@@ -1,30 +1,35 @@
 # scheme_web_interpreter
 
-This is a new frontend under development for scheme.cs61a.org.
+[scheme.cs61a.org][] is an online interpreter for [61A Scheme][] written in
+[Dart][]. It's used by Berkeley's CS 61A to help students learn Scheme.
 
-You can currently try it out at [scheme-beta.apps.cs61a.org][].
-
-It depends on the [Dart implementation][] of [61A Scheme][] and a
-[private staff implementation][private] of the required [ProjectInterface][].
+It depends on both [dart_scheme][] and a private implementation library (since
+parts of the interpreter mirror the 61A Scheme project). A [skeleton][] of this
+library is publicly available.
 
 ## Development Setup
 
 1. Install the [Dart SDK](https://www.dartlang.org/install). At least version
-1.20 is required, but I recommend at least 1.24. If Dart 2.0 has been released
-by the time you read this, stick with the latest 1.x version for now. Make sure
-that both `dart` and `pub` are on your path.
+1.20 is required, but I recommend at least 1.24.
 
 1b. (Temporary) At the moment, this project uses the Ruby version of Sass and
 requires you to install it separately on your path in order to build the CSS.
 I plan to switch this over to the Dart version of Sass soon.
 
-2. While this package will eventually depend on the main implementation through
-Pub and the private implementation through Git, for right now, make a directory
-and clone all three repos into it as follows:
+2. Clone all three repos into a shared directory.
 
-    dart_scheme -> cs61a_scheme
-    dart_scheme_impl -> cs61a_scheme_impl
-    scheme_web_interpreter -> scheme_web_interpreter
+```
+mkdir scheme && cd scheme
+git clone git@github.com:Cal-CS-61A-Staff/dart_scheme.git
+git clone git@github.com:Cal-CS-61A-Staff/scheme_web_interpreter.git
+git clone git@github.com:jathak/scheme_impl_skeleton.git dart_scheme_impl
+```
+
+61A TAs may replace that last line with
+
+```
+git clone git@github.com:Cal-CS-61A-Staff/dart_scheme_impl.git
+```
 
 3. From the scheme_web_interpreter, run `pub get` to fetch dependencies.
 
@@ -36,7 +41,7 @@ automatically when you refresh the page).
 5. (Dart 1.24+) For a faster dev cycle, run `pub serve --web-compiler=dartdevc`.
 This compiler is incremental, so it should be much faster. However, some
 behavior can differ (notably, procedure toString methods are including a bunch
-of random JS at the moment).
+of random JS at the moment; that appears to be fixed in the Dart 2 dev build).
 
 ## Deployment
 
@@ -47,8 +52,8 @@ current working tree, and include any uncommitted changes.
 If this is the first time the app has been deployed, run `git push dokku master`
 to initialize the remote repo (it will fail, but then `make deploy` can work).
 
-[scheme-beta.apps.cs61a.org]: https://scheme-beta.apps.cs61a.org
-[Dart implementation]: https://github.com/Cal-CS-61A-Staff/dart_scheme
+[scheme.cs61a.org]: https://scheme.cs61a.org
+[Dart]: https://dartlang.org
+[dart_scheme]: https://github.com/Cal-CS-61A-Staff/dart_scheme
 [61A Scheme]: https://cs61a.org/articles/scheme-spec.html
-[private]: https://github.com/Cal-CS-61A-Staff/dart_scheme_impl
-[ProjectInterface]: https://github.com/Cal-CS-61A-Staff/dart_scheme/blob/master/lib/src/core/project_interface.dart
+[skeleton]: https://github.com/jathak/scheme_impl_skeleton
