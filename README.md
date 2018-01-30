@@ -12,10 +12,6 @@ library is publicly available.
 1. Install the [Dart SDK](https://www.dartlang.org/install). At least version
 1.20 is required, but I recommend at least 1.24.
 
-1b. (Temporary) At the moment, this project uses the Ruby version of Sass and
-requires you to install it separately on your path in order to build the CSS.
-I plan to switch this over to the Dart version of Sass soon.
-
 2. Clone all three repos into a shared directory.
 
 ```

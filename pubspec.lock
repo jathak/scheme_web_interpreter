@@ -19,7 +19,7 @@ packages:
       name: args
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.0"
+    version: "0.13.7"
   async:
     description:
       name: async
@@ -38,6 +38,12 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.2"
+  browser:
+    description:
+      name: browser
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.10.0+2"
   charcode:
     description:
       name: charcode
@@ -98,12 +104,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.14.1"
-  dart_sass_transformer:
-    description:
-      name: dart_sass_transformer
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "0.5.0+1"
   dart_style:
     description:
       name: dart_style
@@ -272,6 +272,12 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.1.11"
+  sass:
+    description:
+      name: sass
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.0-beta.4"
   shelf:
     description:
       name: shelf
@@ -344,6 +350,18 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.12.30+1"
+  transform_sass:
+    description:
+      name: transform_sass
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.3.1"
+  tuple:
+    description:
+      name: tuple
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "1.0.1"
   typed_data:
     description:
       name: typed_data

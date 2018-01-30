@@ -14,14 +14,12 @@ dependencies:
   dart_to_js_script_rewriter: ^1.0.3
 
 dev_dependencies:
+  browser: any
   appcache:
     git: https://github.com/jathak/dart-appcache.git
-  dart_sass_transformer: ^0.5.0+1
+  transform_sass: ^0.3.1
   test: ^0.12.0
 
 transformers:
-  - dart_sass_transformer:
-      executable: sass
-      style: compact
-      copy-sources: false
+  - transform_sass
   - dart_to_js_script_rewriter
