@@ -17,7 +17,7 @@
     (seth 0) (begin_fill) (circle 18) (end_fill))
   (define (draw-bishop x y) (seth 90) (goto (+ x 35) (+ y 10)) (begin_fill)
     (fd 10) (left 90) (fd 35) (right 90) (fd 15) (left 90) (fd 10) (left 90)
-    (fd 15) (right 90) (fd 15) (left 90) (fd 10) (left 90) (fd 15) 
+    (fd 15) (right 90) (fd 15) (left 90) (fd 10) (left 90) (fd 15)
     (right 90) (fd 15) (left 90) (fd 10) (left 90) (fd 15) (end_fill))
   (define (draw-king x y) (seth 0) (goto (+ x 60) (+ y 10)) (begin_fill)
     (circle 20 180) (end_fill) (goto (+ x 55) (+ y 35)) (seth 0) (begin_fill)
@@ -40,7 +40,7 @@
   (let ((t (type piece))
         (x (+ -400 (* 80 (file piece))))
         (y (+ -400 (* 80 (rank piece)))))
-    (cond 
+    (cond
       ((equal? t "king") (draw-king x y))
       ((equal? t "queen") (draw-queen x y))
       ((equal? t "rook") (draw-rook x y))
@@ -133,7 +133,7 @@
 (define (_check-validity f1 r1 f2 r2 piece-at)
     (define (abs x) (if (< x 0) (- x) x))
     (define (line-blocked f1 r1 f2 r2)
-      (cond 
+      (cond
         ((and (<= (abs (- f1 f2)) 1) (<= (abs (- r1 r2)) 1)) false)
         ((= r1 r2)
           (let ((inc (/ (- f2 f1) (abs (- f2 f1)))))
@@ -205,7 +205,7 @@
         (else (_find-king (cdr pieces)))))
 
 (define (move f1 r1 f2 r2)
-  (define (queen-me piece) 
+  (define (queen-me piece)
     (if (and (equal? (type piece) "pawn")
              (or (and (= (rank piece) 8)(equal? (piece-color piece) "white"))
                  (and (= (rank piece) 1) (equal? (piece-color piece) "black"))))
@@ -266,8 +266,8 @@
 (define current nil)
 (reset)
 
-(listen-for 'turtle-click 
-  (lambda (x y) 
+(listen-for 'turtle-click
+  (lambda (x y)
     (define (find-square x y)
       (cons (quotient (+ x 400) 80)
             (quotient (+ y 400) 80)))
@@ -289,13 +289,13 @@
     (define new-high (find-square x y))
     (define piece-there (piece-at (car new-high) (cdr new-high)))
     (if (equal? cur-high (cons 0 0))
-      (if (null? piece-there) 
+      (if (null? piece-there)
         (if (equal? current-highlight (cons 0 0)) nil
             (begin (set! current-highlight (cons 0 0))
                    (_redraw-square (car cur-high) (cdr cur-high))))
-        (begin (set! current-highlight new-high) 
+        (begin (set! current-highlight new-high)
              (_redraw-square (car new-high) (cdr new-high))))
-      (begin 
+      (begin
         (set! current-highlight (cons 0 0))
         (_redraw-square (car cur-high) (cdr cur-high))
         (move (car cur-high) (cdr cur-high) (car new-high) (cdr new-high))
