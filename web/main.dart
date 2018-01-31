@@ -6,7 +6,9 @@ import 'package:cs61a_scheme_impl/impl.dart' show StaffProjectImplementation;
 
 import 'package:scheme_web_interpreter/repl.dart';
 
-const String motd = """<strong>61A Scheme Web Interpreter 2.0.0-beta</strong>
+const String motd = "<strong>61A Scheme Web Interpreter 2.0.0-beta</strong>"
+"                         "
+"""<small><a id='github' target='_blank'>View Source on GitHub</a></small>
 ********************************************************************************
 <strong>Diagramming</strong>
 (draw &lt;any list>) to create a box-and-pointer diagram
@@ -65,6 +67,8 @@ main() async {
   });
   var repl = new Repl(inter, document.body);
   var motdElement = new SpanElement()..innerHtml = motd;
+  motdElement.querySelector('#github').attributes['href'] =
+      "https://github.com/Cal-CS-61A-Staff/scheme_web_interpreter";
   motdElement.querySelector('#legacy-interpreter').attributes['href'] =
       "https://scheme-legacy.apps.cs61a.org";
   motdElement.querySelector('#legacy-editor').attributes['href'] =
