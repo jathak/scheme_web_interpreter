@@ -7,8 +7,8 @@ import 'package:cs61a_scheme_impl/impl.dart' show StaffProjectImplementation;
 import 'package:scheme_web_interpreter/repl.dart';
 
 const String motd = "<strong>61A Scheme Web Interpreter 2.0.0-beta</strong>"
-"                         "
-"""<small><a id='github' target='_blank'>View Source on GitHub</a></small>
+    "                         "
+    """<small><a id='github' target='_blank'>View Source on GitHub</a></small>
 ********************************************************************************
 <strong>Diagramming</strong>
 (draw &lt;any list>) to create a box-and-pointer diagram
