@@ -117,9 +117,10 @@ class Repl {
     var tokens = tokenizeLines(code.split("\n")).toList();
     var loggingArea = activeLoggingArea;
     while (tokens.isNotEmpty) {
+      Expression result;
       try {
         Expression expr = schemeRead(tokens, interpreter.implementation);
-        Expression result = schemeEval(expr, interpreter.globalEnv);
+        result = schemeEval(expr, interpreter.globalEnv);
         if (result is AsyncExpression) {
           var box = new SpanElement()
             ..text = '$result\n'
@@ -132,11 +133,6 @@ class Repl {
           var box = new SpanElement();
           loggingArea.append(box);
           logInto(box, result, true);
-        }
-        if (autodraw && result is Pair) {
-          var box = new SpanElement();
-          loggingArea.append(box);
-          logInto(box, new Diagram(result), true);
         }
       } on SchemeException catch (e) {
         loggingArea.append(new SpanElement()
@@ -151,6 +147,12 @@ class Repl {
           ..classes = ['error']);
         if (e is Error) {
           print('Stack Trace: ${e.stackTrace}');
+        }
+      } finally {
+        if (autodraw && result is Pair) {
+          var box = new SpanElement();
+          loggingArea.append(box);
+          logInto(box, new Diagram(result), true);
         }
       }
     }
