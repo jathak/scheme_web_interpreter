@@ -71,20 +71,22 @@ class Repl {
   bool autodraw = false;
 
   addPrimitives() {
-    addPrimitive(interpreter.globalEnv, const SchemeSymbol('clear'), (_a, _b) {
+    var env = interpreter.globalEnv;
+    addPrimitive(env, const SchemeSymbol('clear'), (_a, _b) {
       for (Element child in container.children.toList()) {
         if (child == activePrompt) break;
         container.children.remove(child);
       }
       return undefined;
     }, 0);
-    addPrimitive(interpreter.globalEnv, const SchemeSymbol('autodraw'), (_a, _b) {
-      logText('When interactive output is a pair, it will automatically be drawn.\n');
-      logText('(disable-autodraw) to disable\n');
+    addPrimitive(env, const SchemeSymbol('autodraw'), (_a, _b) {
+      logText(
+          'When interactive output is a pair, it will automatically be drawn.\n'
+          '(disable-autodraw) to disable\n');
       autodraw = true;
       return undefined;
     }, 0);
-    addPrimitive(interpreter.globalEnv, const SchemeSymbol('disable-autodraw'), (_a, _b) {
+    addPrimitive(env, const SchemeSymbol('disable-autodraw'), (_a, _b) {
       logText('Autodraw disabled');
       autodraw = false;
       return undefined;
@@ -119,7 +121,7 @@ class Repl {
     while (tokens.isNotEmpty) {
       Expression result;
       try {
-        Expression expr = schemeRead(tokens, interpreter.implementation);
+        Expression expr = schemeRead(tokens, interpreter.impl);
         result = schemeEval(expr, interpreter.globalEnv);
         if (result is AsyncExpression) {
           var box = new SpanElement()
@@ -195,8 +197,9 @@ class Repl {
   }
 
   keyListener(KeyboardEvent event) async {
-    if (event.keyCode == KeyCode.BACKSPACE ||
-        (event.ctrlKey && (event.keyCode == KeyCode.V || event.keyCode == KeyCode.X))) {
+    int code = event.keyCode;
+    if (code == KeyCode.BACKSPACE ||
+        (event.ctrlKey && (code == KeyCode.V || code == KeyCode.X))) {
       await delay(0);
       updateInputStatus();
       highlightSaveCursor(activeInput);
@@ -206,9 +209,12 @@ class Repl {
   onInputKeyPress(KeyboardEvent event) async {
     Element input = activeInput;
     int missingParens = updateInputStatus();
-    if ((missingParens ?? -1) > 0 && event.shiftKey && event.keyCode == KeyCode.ENTER) {
+    if ((missingParens ?? -1) > 0 &&
+        event.shiftKey &&
+        event.keyCode == KeyCode.ENTER) {
       event.preventDefault();
-      activeInput.text = activeInput.text.trimRight() + ')' * missingParens + '\n';
+      activeInput.text =
+          activeInput.text.trimRight() + ')' * missingParens + '\n';
       runActiveCode();
       await delay(100);
       input.innerHtml = highlight(input.text);
@@ -274,9 +280,11 @@ class Repl {
       renderer.render(logging);
       logging.onUpdate.listen(([_]) async {
         await delay(0);
-        if (logging is Visualization && element.offsetHeight > window.innerHeight) {
+        if (logging is Visualization &&
+            element.offsetHeight > window.innerHeight) {
           container.scrollTop = container.scrollHeight;
-          element.querySelector('.current-frame').scrollIntoView(ScrollAlignment.CENTER);
+          var frame = element.querySelector('.current-frame');
+          frame.scrollIntoView(ScrollAlignment.CENTER);
         } else {
           container.scrollTop = container.scrollHeight;
         }

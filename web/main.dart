@@ -43,17 +43,22 @@ main() async {
   inter.importLibrary(web);
   var specials = inter.globalEnv.bindings.keys.toSet().difference(normals);
   inter.importLibrary(new TurtleLibrary(querySelector('canvas'), inter));
-  var turtles = inter.globalEnv.bindings.keys.toSet().difference(specials).difference(normals);
+  var turtles = inter.globalEnv.bindings.keys
+      .toSet()
+      .difference(specials)
+      .difference(normals);
   context.callMethod('hljsRegister', [
     new JsObject.jsify({
-      'builtin-normal': normals.union(inter.specialForms.keys.toSet()).join(' '),
+      'builtin-normal':
+          normals.union(inter.specialForms.keys.toSet()).join(' '),
       'builtin-special': specials.join(' '),
       'builtin-turtle': turtles.join(' ')
     })
   ]);
   if (window.localStorage.containsKey('#scheme-theme')) {
     try {
-      var expr = Serialization.deserializeFromJson(window.localStorage['#scheme-theme']);
+      var expr = Serialization
+          .deserializeFromJson(window.localStorage['#scheme-theme']);
       if (expr is Theme) {
         applyTheme(expr, css, style, false);
       }
